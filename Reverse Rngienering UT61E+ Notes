@@ -52,23 +52,23 @@ FF                -> Funcion:
                         18 -> Medicion AC LPF
                         19 -> DC+AC
 
-3R                -> Nible menos significativo indica el rango 0 -> 4 decimales 3 -> 1 decimal y de aqui se puede sacar la unidad
+RR                -> Nible menos significativo indica el rango (0 -> 6)
 
 SS                -> Signo numero principal ASCII (vacio como 0x20)
 DD DD DD DD DD DD -> Numero principal ASCII (vacio como 0x20)
 xx yy             -> Representa la barra analogica xx division (0-5,5-10,etc) yy unidad dentro de la division
 
-3A                -> el bit 0 se pone a 1 cuando medicion es relativa
+AA                -> el bit 0 se pone a 1 cuando medicion es relativa
                   -> el bit 1 se pone a 1 cuando se selecciona hold
                   -> el bit 2 se pone a 1 cuando se selecciona min
                   -> el bit 3 se pone a 1 cuando se selecciona max
 
-3B                -> el bit 2 se pone a 1 cuando se selecciona el rango (manual)
+BB                -> el bit 2 se pone a 1 cuando se selecciona el rango (manual)
 
-3C                -> el bit 0 se pone a 1 cuando la barra es negativa
+CC                -> el bit 0 se pone a 1 cuando la barra es negativa
                      el bit 1 se pone a 1 cuando p-min
                      el bit 2 se pone a 1 cuando p-max
-                     el bit 3 se pone a 1 cuando se mide micro
+                     el bit 3 se pone a 1 cuando hay algun error????
 
 CRC 2 byte       -> Se suman todos los bytes menos los del CRC
 
