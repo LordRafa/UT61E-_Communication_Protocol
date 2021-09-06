@@ -1,4 +1,4 @@
-Comandos
+Comandos:
 
 Formato
 
@@ -21,6 +21,8 @@ Peak Off     -> 06 abcd 03 4e 01 c9
 
 Max/Min      -> 06 abcd 03 41 01 bc
 Max/Min Off  -> 06 abcd 03 42 01 bd
+
+Read Info CMD Respose
 
 LL                -> Longitud Total
 2 bytes 0xab 0xcd -> Maker Id (Uni-T)
@@ -66,3 +68,4 @@ xx yy             -> Representa la barra analogica xx division (0-5,5-10,etc) yy
                      el bit 3 se pone a 1 cuando se mide micro
 
 CRC 2 byte       -> Se suman todos los bytes menos los del CRC
+
