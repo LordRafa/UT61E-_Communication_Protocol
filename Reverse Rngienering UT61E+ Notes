@@ -1,82 +1,89 @@
-Comandos:
+CP2110 HID Messages:
 
-Formato
+My serial cable is a D-09 (HID to serial) version. Four messages are send when stablishing the connection with the UT-61E+:
 
-LL           -> Longitud Total
-0xABCD       -> Maker Id (Uni-T)
-ll           -> CMD Lenght
-CC           -> CMD
-XX YY        -> 2 byte CRC (Se suman todos los bytes menos los del CRC)
+Get feature report 0x46 (with length 64) -> Get CP2110 version information
+Set feature report 0x41 (with value 0x01) -> Enable CP2110 UART 
+Set feature report 0x50 (with value 0x0000 2580 00 00 03 00) -> Set CP2110 UART conf (9600bps - No Parity - No Flow - 8bits - Short Stop Bit)
+Set feature report 0x43 (with value 0x03) -> Purge CP2110 RX/TX FIFOs
+
+Then Commands are send using interrupt txns to the OUT endpoint and responses come as interrupt txns from the IN endpoint, both preceded with a byte indicating the payload lenght
+
+UT-61E+ Commands:
+
+Format
+
+0xAB 0xCD    -> Maker Id (Uni-T)
+ll           -> CMD Lenght (Including the 2 CRC bytes)
+CC..CC       -> CMD
+XX YY        -> 2 byte CRC (Sum of all cmd bytes)
 
 CMD List:
 
-Read Info    -> 06 abcd 03 5e 01 d9
+Read Info    -> ab cd 03 5e 01 d9
 
 Butons:
-Max/Min      -> 06 abcd 03 41 01 bc
-Max/Min Off  -> 06 abcd 03 42 01 bd
-Manual       -> 06 abcd 03 46 01 c1
-Auto         -> 06 abcd 03 47 01 c2
-REL          -> 06 abcd 03 48 01 c3
-Hz%          -> 06 abcd 03 49 01 c4
-HLD          -> 06 abcd 03 4a 01 c5
-Light        -> 06 abcd 03 4b 01 c6
-Select       -> 06 abcd 03 4c 01 c7
-Peak Max/Min -> 06 abcd 03 4d 01 c8
-Peak Off     -> 06 abcd 03 4e 01 c9
+Max/Min      -> ab cd 03 41 01 bc
+Max/Min Off  -> ab cd 03 42 01 bd
+Manual       -> ab cd 03 46 01 c1
+Auto         -> ab cd 03 47 01 c2
+REL          -> ab cd 03 48 01 c3
+Hz%          -> ab cd 03 49 01 c4
+HLD          -> ab cd 03 4a 01 c5
+Light        -> ab cd 03 4b 01 c6
+Select       -> ab cd 03 4c 01 c7
+Peak Max/Min -> ab cd 03 4d 01 c8
+Peak Off     -> ab cd 03 4e 01 c9
 
 
 Read Info CMD Successful Respose
 
 2 bytes 0xab 0xcd -> Maker Id (Uni-T)
-ll                -> Longitud (0x10)
-FF                -> Funcion:
+ll                -> Lenght (0x10)
+FF                -> Function:
                         00 -> AC normal
                         01 -> AC micro
                         02 -> DC normal
                         03 -> DC micro
                         04 -> HZ
                         05 -> %
-                        06 -> Resistencia
-                        07 -> Continuidad
-                        08 -> Diodos
-                        09 -> Capacitancia
-                        0C -> Corriente DC uA
-                        0D -> Corriente AC uA
-                        0E -> Corriente DC mA
-                        0F -> Corriente AC mA
-                        10 -> Corriente DC A
-                        11 -> Corriente AC A
+                        06 -> Resistance
+                        07 -> Continuity
+                        08 -> Diodes
+                        09 -> Capacitance
+                        0C -> Current DC uA
+                        0D -> Current AC uA
+                        0E -> Current DC mA
+                        0F -> Current AC mA
+                        10 -> Current DC A
+                        11 -> Current AC A
                         12 -> hFE
                         14 -> NCV
-                        18 -> Medicion AC LPF
+                        18 -> AC LPF Measurement
                         19 -> DC+AC
 
-RR                -> Nible menos significativo indica el rango (0 -> 6)
+xR                -> R indicates the range
 
-SS                -> Signo numero principal ASCII (vacio como 0x20)
-DD DD DD DD DD DD -> Numero principal ASCII (vacio como 0x20)
-xx yy             -> Representa la barra analogica xx division (0-5,5-10,etc) yy unidad dentro de la division
+SS                -> Main Value sign in ASCII (empty -> 0x20)
+DD DD DD DD DD DD -> Main Value in ASCII (empty -> 0x20)
+xx yy             -> Analog Bar xx division (0-5,5-10,etc) yy unit inside division
 
-AA                -> el bit 0 se pone a 1 cuando medicion es relativa
-                  -> el bit 1 se pone a 1 cuando se selecciona hold
-                  -> el bit 2 se pone a 1 cuando se selecciona min
-                  -> el bit 3 se pone a 1 cuando se selecciona max
+AA                -> bit 0 to 1 on relative measurement
+                  -> bit 1 to 1 on hold
+                  -> bit 2 to 1 when min is selected
+                  -> bit 3 to 1 when max is selected
 
-BB                -> el bit 2 se pone a 1 cuando se selecciona el rango (manual)
+BB                -> bit 2 to 1 on manual range
 
-CC                -> el bit 0 se pone a 1 cuando la barra es negativa
-                     el bit 1 se pone a 1 cuando p-min
-                     el bit 2 se pone a 1 cuando p-max
-                     el bit 3 se pone a 1 cuando hay algun error????
+CC                -> bit 0 set to 1 when negarive analog bar
+                     bit 1 set to 1 when p-min is selected
+                     bit 2 set to 1 when p-max is selected
+                     bit 3 set to 1 when there is an error (TBC)
 
-CRC 2 byte       -> Se suman todos los bytes menos los del CRC
+CRC 2 byte       -> Sum of all bytes
 
 Buton CMD Successful Response
 2 bytes 0xab 0xcd   -> Maker Id (Uni-T)
 0x04                -> Longitud (0x04)
 0xFF 0x00           -> OK???
-0x02 0x7B           -> 2 byte CRC (Se suman todos los bytes menos los del CRC)
-
-
-En caso de error se obtiene un mensaje de tipo
+0x02 0x7B           -> 2 byte CRC
