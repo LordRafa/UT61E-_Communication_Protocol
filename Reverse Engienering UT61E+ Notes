@@ -7,7 +7,8 @@ Set feature report 0x41 (with value 0x01) -> Enable CP2110 UART
 Set feature report 0x50 (with value 0x0000 2580 00 00 03 00) -> Set CP2110 UART conf (9600bps - No Parity - No Flow - 8bits - Short Stop Bit)
 Set feature report 0x43 (with value 0x03) -> Purge CP2110 RX/TX FIFOs
 
-Then Commands are send using interrupt txns to the OUT endpoint and responses come as interrupt txns from the IN endpoint, both preceded with a byte indicating the payload lenght
+Then Commands are send using interrupt txns to the OUT endpoint and responses come as interrupt txns from the IN endpoint, both preceded with
+a byte indicating the payload lenght.
 
 UT-61E+ Commands:
 
