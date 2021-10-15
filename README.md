@@ -8,7 +8,7 @@ The files that are actually usefull are:
 | Reverse Engienering UT61E+ Notes | UT64E+ protocol description |
 | UT61E+_POC.py | UT-61E+ communication proof of concept in python |
 
-The rest of the files where used to reverse the communication protocol:
+The rest of the files were used to reverse the communication protocol:
 
 | File | Description |
 |------|-------------|
