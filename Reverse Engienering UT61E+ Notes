@@ -1,6 +1,6 @@
 CP2110 HID Messages:
 
-My serial cable is a D-09 (HID to serial) version. Four messages are send when stablishing the connection with the UT-61E+:
+My dmm communication adapter is a D-09 (HID to serial) version. Four messages are send when stablishing the connection with the UT-61E+:
 
 Get feature report 0x46 (with length 64) -> Get CP2110 version information
 Set feature report 0x41 (with value 0x01) -> Enable CP2110 UART 
