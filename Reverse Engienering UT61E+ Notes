@@ -8,7 +8,7 @@ Set feature report 0x50 (with value 0x0000 2580 00 00 03 00) -> Set CP2110 UART 
 Set feature report 0x43 (with value 0x03) -> Purge CP2110 RX/TX FIFOs
 
 Then Commands are send using interrupt txns to the OUT endpoint and responses come as interrupt txns from the IN endpoint, both preceded with
-a byte indicating the payload lenght.
+a byte indicating the payload lenght (as per CP2110 specs).
 
 UT-61E+ Commands:
 
