@@ -6,6 +6,37 @@ with hid.Device(0x10C4, 0xEA80) as h:
 
     acu = []
 
+    RANGE_RESISTANCE = [
+        "Ω", #220.00Ω
+        "KΩ", #2.2000KΩ
+        "KΩ", #22.000KΩ
+        "KΩ", #220.00KΩ
+        "MΩ", #2.2000MΩ
+        "MΩ", #22.000MΩ
+        "MΩ"  #220.00MΩ
+    ]
+
+    RANGE_FREQUENCY = [
+        "Hz", #22.00Hz
+        "Hz", #220.0Hz
+        "kHz", #22.000KHz
+        "kHz", #220.00KHz
+        "MHz", #2.2000MHz
+        "MHz", #22.000MHz
+        "MHz"  #220.00MHz
+    ]
+
+    RANGE_CAPACITANCE = [
+        "nF", #22.000nF
+        "nF", #220.00nF
+        "µF", #2.2000μF
+        "µF", #22.000μF
+        "µF", #220.00μF
+        "mF", #2.2000mF
+        "mF", #22.000mF
+        "mF"  #220.00mF
+    ]
+
     def write_config(data):
         """write configuration with send_feature_report"""
         len_bytes = len(data)
@@ -32,26 +63,43 @@ with hid.Device(0x10C4, 0xEA80) as h:
                 counter = 0
 
     def parse_func():
-        if (acu[3] == 0x00): return "AC Voltage (V)"
-        elif (acu[3] == 0x01): return "AC Voltage (mV)"
-        elif (acu[3] == 0x02): return "DC Voltage (V)"
-        elif (acu[3] == 0x03): return "DC Voltage (mV)"
-        elif (acu[3] == 0x04): return "HZ"
-        elif (acu[3] == 0x05): return "%"
+        if (acu[3] == 0x00): return "AC Voltage"
+        elif (acu[3] == 0x01): return "AC Voltage"
+        elif (acu[3] == 0x02): return "DC Voltage"
+        elif (acu[3] == 0x03): return "DC Voltage"
+        elif (acu[3] == 0x04): return "Frequency"
+        elif (acu[3] == 0x05): return "Duty"
         elif (acu[3] == 0x06): return "Resistance"
         elif (acu[3] == 0x07): return "Continuity"
         elif (acu[3] == 0x08): return "Diodes"
         elif (acu[3] == 0x09): return "Capacitance"
-        elif (acu[3] == 0x0C): return "DC Current (uA)"
-        elif (acu[3] == 0x0D): return "AC Current (uA)"
-        elif (acu[3] == 0x0E): return "DC Current (mA)"
-        elif (acu[3] == 0x0F): return "AC Current (mA)"
-        elif (acu[3] == 0x10): return "DC Current (A)"
-        elif (acu[3] == 0x11): return "AC Current (A)"
+        elif (acu[3] == 0x0C): return "DC Current"
+        elif (acu[3] == 0x0D): return "AC Current"
+        elif (acu[3] == 0x0E): return "DC Current"
+        elif (acu[3] == 0x0F): return "AC Current"
+        elif (acu[3] == 0x10): return "DC Current"
+        elif (acu[3] == 0x11): return "AC Current"
         elif (acu[3] == 0x12): return "hFE"
         elif (acu[3] == 0x14): return "NCV"
-        elif (acu[3] == 0x18): return "AC LPF"
+        elif (acu[3] == 0x18): return "AC Voltage LPF"
         elif (acu[3] == 0x19): return "DC+AC"
+
+    def parse_unit():
+
+        if ((acu[3] == 0x00) | (acu[3] == 0x02) | (acu[3] == 0x08) |
+            (acu[3] == 0x18) | (acu[3] == 0x19)): return "V"
+        elif ((acu[3] == 0x01) | (acu[3] == 0x03)): return "mV"
+        elif (acu[3] == 0x04): return RANGE_FREQUENCY[acu[4]&0xF]
+        elif (acu[3] == 0x05): return "%"
+        elif (acu[3] == 0x06): return RANGE_RESISTANCE[acu[4]&0xF]
+        elif (acu[3] == 0x07): return "Ω"
+        elif (acu[3] == 0x09): return RANGE_CAPACITANCE[acu[4]&0xF]
+        elif ((acu[3] == 0x0C) | (acu[3] == 0x0D)): return "μA"
+        elif ((acu[3] == 0x0E) | (acu[3] == 0x0F)): return "mA"
+        elif ((acu[3] == 0x10) | (acu[3] == 0x11)): return "A"
+        elif (acu[3] == 0x12): return "β"
+
+        return ""
 
     def check_crc():
         crc_calc = sum(acu[:17])
@@ -79,14 +127,14 @@ with hid.Device(0x10C4, 0xEA80) as h:
 
     write_config([0x41, 0x01])
     write_config([0x50, 0x00, 0x00, 0x25, 0x80, 0x00, 0x00, 0x03, 0x00])
-    write_config([0x43, 0x43, 0x03])
+    write_config([0x43, 0x03])
 
     write([ 0xab, 0xcd, 0x03, 0x5e, 0x01, 0xd9 ])
     read_raw()
     print("Maker ID: 0x" + ''.join('%02X'%i for i in acu[:2]))
     print("Response Lenght: 0x" + ''.join('%02X'%i for i in acu[2:3]))
     print("Selected Function: " + parse_func())
-    print("Range: 0x" + ''.join('%02X'% (i & 0x0F) for i in acu[4:5]))
+    print("Unit: " + parse_unit())
     print("Value: " + ''.join('%c'%c for c in acu[5:12]))
     print("Analog Bar:", end = "")
     if (acu[16] & 0x1): print("-", end = "")
@@ -179,3 +227,4 @@ with hid.Device(0x10C4, 0xEA80) as h:
 ##    print("Testing Hidden CMD 0x4f")
 ##    write([ 0xab, 0xcd, 0x03, 0x4f, 0x01, 0xca ])
 ##    time.sleep(5)
+##
