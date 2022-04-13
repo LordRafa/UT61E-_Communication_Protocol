@@ -1,0 +1,121 @@
+VAC/normal						0x	11	1	1
+VAC/normal relative				0x	11	1	2
+VAC/Hz							0x	11	2	1
+VAC/peak						0x	11	3	1
+VAC/low pass					0x	11	4	1
+VAC/low pass relative			0x	11	4	2
+VAC/dBV							0x	11	5	1
+VAC/dBV relative				0x	11	5	2
+VAC/dBm							0x	11	6	1
+VAC/dBm relative				0x	11	6	2
+
+
+mVAC/normal						0x	21	1	1
+mVAC/normal relative			0x	21	1	2
+mVAC/Hz							0x	21	2	1
+mVAC/peak						0x	21	3	1
+mVAC/AC+DC						0x	21	4	1
+mVAC/AC+DC relative				0x	21	4	2
+
+
+VDC/normal						0x	31	1	1
+VDC/normal relative				0x	31	1	2
+VDC/AC+DC						0x	31	2	1
+VDC/AC+DC relative				0x	31	2	2
+VDC/peak						0x	31	3	1
+
+
+mVDC/normal						0x	41	1	1
+mVDC/normal relative			0x	41	1	2
+mVDC/peak						0x	41	2	1
+
+
+TempC/T1,T2						0x	42	1	1
+TempC/T1,T2 relative			0x	42	1	2
+TempC/T2,T1						0x	42	2	1
+TempC/T2,T1 relative			0x	42	2	2
+TempC/T1-T2						0x	42	3	1
+TempC/T2-T1						0x	42	4	1
+TempF/T1,T2						0x	43	1	1
+TempF/T1,T2 relative			0x	43	1	2
+TempF/T2,T1						0x	43	2	1
+TempF/T2,T1 relative			0x	43	2	2
+TempF/T1-T2						0x	43	3	1
+TempF/T2-T1						0x	43	4	1
+
+
+Resistance						0x	51	1	1
+Resistance relative				0x	51	1	2
+
+
+Beeper/Short					0x	52	1	1
+Beeper/Open						0x	52	1	2
+
+
+Admittance						0x	53	1	1
+Admittance relative				0x	53	1	2
+
+
+Diode/Normal					0x	61	1	1
+Diode/Alarm						0x	61	1	2
+
+
+Capacitance						0x	62	1	1
+Capacitance realative			0x	62	1	2
+
+
+Frequency						0x	71	1	1
+Frequency relative				0x	71	1	2
+
+
+Duty cycle						0x	72	1	1
+Duty cycle relative				0x	72	1	2
+
+
+Pulse width						0x	73	1	1
+Pulse width relative			0x	73	1	2
+
+
+uADC/normal						0x	81	1	1
+uADC/normal relative			0x	81	1	2
+
+
+uADC/AC+DC						0x	81	2	1
+uADC/AC+DC relative				0x	81	2	2
+uADC/peak						0x	81	3	1
+uAAC/normal						0x	82	1	1
+
+
+uAAC/normal relative			0x	82	1	2
+uAAC/Hz							0x	82	2	1
+uAAC/peak						0x	82	3	1
+
+
+mADC/normal						0x	91	1	1
+mADC/normal relative			0x	91	1	2
+mADC/AC+DC						0x	91	2	1
+mADC/AC+DC relative				0x	91	2	2
+mADC/peak						0x	91	3	1
+
+
+mAAC/normal						0x	92	1	1
+mAAC/normal relative			0x	92	1	2
+
+
+mAAC/Hz							0x	92	2	1
+mAAC/peak						0x	92	3	1
+
+
+ADC/normal						0x	A1	1	1
+ADC/normal relative				0x	A1	1	2
+
+
+ADC/AC+DC						0x	A1	2	1
+ADC/AC+DC relative				0x	A1	2	2
+ADC/peak						0x	A1	3	1
+
+
+AAC/normal						0x	A2	1	1
+AAC/normal relative				0x	A2	1	2
+AAC/Hz							0x	A2	2	1
+AAC/peak						0x	A2	3	1
